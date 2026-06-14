@@ -10,15 +10,14 @@ on:
 
 jobs:
   lint-test-build:
-    name: Lint, test and build
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v4
 
       - name: Setup Node.js
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: npm
@@ -27,11 +26,14 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Run lint
+      - name: Lint
         run: npm run lint
 
-      - name: Run tests
+      - name: Test
         run: npm test
 
-      - name: Build app
+      - name: Build
         run: npm run build
+
+      - name: Build Docker image
+        run: docker build -t nodejs-docker:test .
